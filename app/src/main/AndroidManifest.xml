@@ -17,7 +17,7 @@
                 android:value=".MainActivity"/>
         </activity>
         <activity
-            android:name=".ColorActivity"
+            android:name=".ColorsActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -31,7 +31,7 @@
                 android:value=".MainActivity"/>
         </activity>
         <activity
-            android:name=".NumberActivity"
+            android:name=".NumbersActivity"
             android:label="@string/title_activity_numbers"
             android:parentActivityName=".MainActivity">
             <meta-data

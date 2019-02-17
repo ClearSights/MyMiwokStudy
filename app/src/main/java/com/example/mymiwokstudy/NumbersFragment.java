@@ -1,14 +1,17 @@
 package com.example.mymiwokstudy;
 
+
+import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -19,7 +22,13 @@ import com.example.mymiwokutil.Word;
 
 import java.util.ArrayList;
 
-public class NumberActivity extends AppCompatActivity {
+import static android.content.Context.AUDIO_SERVICE;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class NumbersFragment extends Fragment {
 
     private ListView wordListView;
     private String[] numbersInEnglish, numbersInMiwok;
@@ -33,20 +42,22 @@ public class NumberActivity extends AppCompatActivity {
     private int requestResult;
     private boolean isAudioFocusDelayed, isAudioFocusToResume;
     private Word currentWord;
-    private static String LOG_TAG = "NumberActivity";
+    private Context mContext;
+    private static String LOG_TAG = "NumbersFragment";
+
+    public NumbersFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_word_list);
-        try {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.layout_word_list, container, false);
+        mContext = getActivity();
 
         // UI
-        wordListView = (ListView) findViewById(R.id.word_list);
+        wordListView = (ListView) rootView.findViewById(R.id.word_list);
         listItemLayoutId = R.layout.layout_list_item;
         listBgColorId = R.color.category_numbers;
 
@@ -54,12 +65,12 @@ public class NumberActivity extends AppCompatActivity {
         ArrayList<Word> wordList = new ArrayList<>();
 
         // adapter
-        myListAdapter = new MyListAdapter(this, listItemLayoutId, wordList, listBgColorId);
+        myListAdapter = new MyListAdapter(mContext, listItemLayoutId, wordList, listBgColorId);
 
         // binding
         wordListView.setAdapter(myListAdapter);
 
-        // get data
+        // get raw data
         numbersInEnglish = MiwokDict.getNumbersInEng();
         numbersInMiwok = MiwokDict.getNumbersInMiwok();
         numberImgRes = MiwokDict.getNumbersImgRes();
@@ -77,7 +88,7 @@ public class NumberActivity extends AppCompatActivity {
         }
 
         // prepare audio focus request
-        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        mAudioManager = (AudioManager) mContext.getSystemService(AUDIO_SERVICE);
         if (Common.isApiLevelAfterO()) {
             mAudioAttributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -124,6 +135,14 @@ public class NumberActivity extends AppCompatActivity {
                 }
             }
         });
+
+        return rootView;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        stopPlayerAndCleanup();
     }
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
@@ -153,15 +172,9 @@ public class NumberActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    protected void onStop() {
-        stopPlayerAndCleanup();
-        super.onStop();
-    }
-
     // start playing audio
     public void startPlay() {
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), currentWord.getAudioResource());
+        mediaPlayer = MediaPlayer.create(mContext, currentWord.getAudioResource());
 
         // play
         mediaPlayer.start();
@@ -192,4 +205,5 @@ public class NumberActivity extends AppCompatActivity {
             }
         }
     }
+
 }

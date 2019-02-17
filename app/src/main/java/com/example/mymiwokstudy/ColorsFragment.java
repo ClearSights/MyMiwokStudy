@@ -1,16 +1,20 @@
 package com.example.mymiwokstudy;
 
+
+import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.mymiwokutil.Common;
 import com.example.mymiwokutil.MiwokDict;
@@ -19,7 +23,12 @@ import com.example.mymiwokutil.Word;
 
 import java.util.ArrayList;
 
-public class ColorActivity extends AppCompatActivity {
+import static android.content.Context.AUDIO_SERVICE;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class ColorsFragment extends Fragment {
 
     private ListView wordListView;
     private String[] colorsInEnglish, colorsInMiwok;
@@ -33,20 +42,22 @@ public class ColorActivity extends AppCompatActivity {
     private int requestResult;
     private boolean isAudioFocusDelayed, isAudioFocusToResume;
     private Word currentWord;
-    private static String LOG_TAG = "ColorActivity";
+    private Context mContext;
+    private static String LOG_TAG = "ColorsFragment";
+
+    public ColorsFragment() {
+        // Required empty public constructor
+    }
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_word_list);
-        try {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = getLayoutInflater().inflate(R.layout.layout_word_list, container, false);
+        mContext = getActivity();
 
         // UI
-        wordListView = (ListView) findViewById(R.id.word_list);
+        wordListView = (ListView) rootView.findViewById(R.id.word_list);
         listItemLayoutId = R.layout.layout_list_item;
         listBgColorId = R.color.category_colors;
 
@@ -54,7 +65,7 @@ public class ColorActivity extends AppCompatActivity {
         ArrayList<Word> wordList = new ArrayList<>();
 
         // adapter
-        myListAdapter = new MyListAdapter(this, listItemLayoutId, wordList, listBgColorId);
+        myListAdapter = new MyListAdapter(mContext, listItemLayoutId, wordList, listBgColorId);
 
         // binding
         wordListView.setAdapter(myListAdapter);
@@ -77,7 +88,7 @@ public class ColorActivity extends AppCompatActivity {
         }
 
         // prepare audio focus request
-        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        mAudioManager = (AudioManager) mContext.getSystemService(AUDIO_SERVICE);
         if (Common.isApiLevelAfterO()) {
             mAudioAttributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -124,6 +135,8 @@ public class ColorActivity extends AppCompatActivity {
                 }
             }
         });
+
+        return rootView;
     }
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
@@ -154,14 +167,14 @@ public class ColorActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onStop() {
-        stopPlayerAndCleanup();
+    public void onStop() {
         super.onStop();
+        stopPlayerAndCleanup();
     }
 
     // start playing audio
     public void startPlay() {
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), currentWord.getAudioResource());
+        mediaPlayer = MediaPlayer.create(mContext, currentWord.getAudioResource());
 
         // play
         mediaPlayer.start();

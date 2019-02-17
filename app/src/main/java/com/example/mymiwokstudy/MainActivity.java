@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent activityIntent;
         switch (v.getId()) {
             case R.id.numbers:
-                activityIntent = new Intent(this, NumberActivity.class);
+                activityIntent = new Intent(this, NumbersActivity.class);
                 startActivity(activityIntent);
                 break;
             case R.id.family:
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(activityIntent);
                 break;
             case R.id.colors:
-                activityIntent = new Intent(this, ColorActivity.class);
+                activityIntent = new Intent(this, ColorsActivity.class);
                 startActivity(activityIntent);
                 break;
             case R.id.phrases:
