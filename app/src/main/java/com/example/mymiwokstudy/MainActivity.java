@@ -1,14 +1,16 @@
 package com.example.mymiwokstudy;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import com.example.mymiwokutil.MyViewPagerAdapter;
 
-    private TextView textNumbers, textFamily, textColors, textPhrases;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,38 +18,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         // UI
-        textNumbers = (TextView) findViewById(R.id.numbers);
-        textFamily = (TextView) findViewById(R.id.family);
-        textColors = (TextView) findViewById(R.id.colors);
-        textPhrases = (TextView) findViewById(R.id.phrases);
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        TabLayout mTabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
-        textNumbers.setOnClickListener(this);
-        textFamily.setOnClickListener(this);
-        textColors.setOnClickListener(this);
-        textPhrases.setOnClickListener(this);
-    }
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
 
-    @Override
-    public void onClick(View v) {
-        Intent activityIntent;
-        switch (v.getId()) {
-            case R.id.numbers:
-                activityIntent = new Intent(this, NumbersActivity.class);
-                startActivity(activityIntent);
-                break;
-            case R.id.family:
-                activityIntent = new Intent(this, FamilyActivity.class);
-                startActivity(activityIntent);
-                break;
-            case R.id.colors:
-                activityIntent = new Intent(this, ColorsActivity.class);
-                startActivity(activityIntent);
-                break;
-            case R.id.phrases:
-                activityIntent = new Intent(this, PhraseActivity.class);
-                startActivity(activityIntent);
-                break;
-            default:
-        }
+        // setup
+        mViewPager.setAdapter(myViewPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 }
