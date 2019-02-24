@@ -1,2 +1,2 @@
 # MyMiwokStudy
-A small Android app that helps learning the Miwok language.
+An Android app that helps learning the Miwok language, a kind of language spoken by some native American groups.
