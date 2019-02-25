@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mymiwokstudy">
+    package="com.github.clearsights.mymiwokstudy">
 
     <application
         android:allowBackup="true"
@@ -10,35 +10,35 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".PhraseActivity"
-            android:parentActivityName=".MainActivity">
+            android:name="com.github.clearsights.mymiwokstudy.PhraseActivity"
+            android:parentActivityName="com.github.clearsights.mymiwokstudy.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value="com.github.clearsights.mymiwokstudy.MainActivity"/>
         </activity>
         <activity
-            android:name=".ColorsActivity"
-            android:parentActivityName=".MainActivity">
+            android:name="com.github.clearsights.mymiwokstudy.ColorsActivity"
+            android:parentActivityName="com.github.clearsights.mymiwokstudy.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value="com.github.clearsights.mymiwokstudy.MainActivity"/>
         </activity>
         <activity
-            android:name=".FamilyActivity"
-            android:parentActivityName=".MainActivity">
+            android:name="com.github.clearsights.mymiwokstudy.FamilyActivity"
+            android:parentActivityName="com.github.clearsights.mymiwokstudy.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value="com.github.clearsights.mymiwokstudy.MainActivity"/>
         </activity>
         <activity
-            android:name=".NumbersActivity"
+            android:name="com.github.clearsights.mymiwokstudy.NumbersActivity"
             android:label="@string/title_activity_numbers"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.github.clearsights.mymiwokstudy.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value="com.github.clearsights.mymiwokstudy.MainActivity"/>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="com.github.clearsights.mymiwokstudy.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
